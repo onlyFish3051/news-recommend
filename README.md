@@ -6,4 +6,6 @@
 # 演示视频
 bilibili：https://www.bilibili.com/video/BV1QT421C7gq/?spm_id_from=333.1387.homepage.video_card.click&vd_source=cf2b45ded1bf3cb4b920f11577fbcce5
 # 部分页面展示
-<img width="254" height="136" alt="image" src="https://github.com/user-attachments/assets/12bb48ba-d012-4e1b-9cf3-02a9f858ba8b" />
+**主页面**
+<img width="516" height="276" alt="image" src="https://github.com/user-attachments/assets/6ce18b54-0344-49de-b8ed-68066d566b49" />
+
