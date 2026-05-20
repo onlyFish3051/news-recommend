@@ -1,0 +1,563 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息</title>
+    <link rel="icon" href={% static 'photo/news_logo.png' %} type="image/x-icon" style="width: 100px;height: 100px">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=ZCOOL+QingKe+HuangYou&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-4.6.2/css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-4.6.2/js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-4.6.2/js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/echarts.min.js' %}"></script>
+    <style>
+        .allpage {
+            width: 1480px;
+            height: 1500px;
+            background-image: url({% static 'photo/bg.png' %});
+            background-size: 1480px;
+            background-repeat: no-repeat;
+        }
+
+        .head {
+            width: 1480px;
+            height: 80px;
+            background-color: #F8F8F8;
+            display: inline-block
+        }
+
+        .head .logo {
+            margin-top: 15px;
+            margin-left: 10px;
+            width: 200px;
+            height: 78px;
+            font-size: 30px;
+            font-family: "ZCOOL KuaiLe", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            float: left;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .head .daohang {
+            margin-left: 40px;
+            margin-top: 30px;
+            color: black;
+            float: left;
+            display: inline-block
+        }
+
+        .head .searchnews {
+            width: 300px;
+            margin-left: 10px;
+            margin-top: 30px;
+            float: left;
+            display: inline-block
+
+        }
+
+        .head .searchlogo {
+            margin-top: 30px;
+        }
+
+        .head .astyle {
+            color: black;
+            text-decoration: none;
+        }
+
+
+        .head a:hover {
+            color: orange;
+            text-decoration: none;
+        }
+
+        .logo a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .logo a:hover {
+            color: orange;
+            text-decoration: none;
+        }
+
+        .head .logo a:hover {
+            color: orange;
+        }
+
+        .leftdaohang {
+            height: 1800px;
+            width: 250px;
+            background-color: #F8F8F8;
+            float: left;
+            display: inline-block;
+        }
+
+        .leftdaohang .section {
+            background-color: #F8F8F8;
+            width: 250px;
+            height: 60px;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .leftdaohang .section:hover {
+            background-color: #F0F0F0;
+        }
+
+        .section:hover p,
+        .section:hover svg {
+            color: orange;
+            fill: orange; /* 针对svg元素，需要使用fill属性来设置颜色 */
+        }
+
+        .leftdaohang .nstyle {
+            display: inline-block;
+            margin-top: 8px;
+            margin-left: 80px;
+            font-size: large;
+            color: black;
+        }
+
+        .leftdaohang .nstyle p {
+            display: inline-block;
+        }
+
+        .leftdaohang .nstyle p:hover {
+            color: orange;
+        }
+
+        .leftdaohang .nstyle svg {
+            display: inline-block;
+            margin-left: -5px;
+        }
+
+        .datacontent {
+            float: left;
+            display: inline-block;
+            width: 1100px;
+            margin-left: 15px;
+            margin-top: 30px;
+            height: 1200px;
+        }
+    </style>
+</head>
+<body>
+<div class="allpage">
+    {#    顶部部分#}
+    <div class="head">
+        <a href="/mainpage/0/" style="cursor: pointer">
+            <div style="display: inline-block;float: left;margin-top: 10px;margin-left: 10px"><img style="width: 100px"
+                                                                                                   src={% static 'photo/news_logo.png' %}>
+            </div>
+        </a>
+        <div class="logo" style="margin-top: 25px"><a href="/mainpage/0/">柿饼子头条</a></div>
+
+        <div class="daohang">
+            <ul class="nav nav-tabs">
+                {% for type in typelist %}
+                    <li class="nav-item">
+                        <a class="nav-link astyle" href="/mainpage/{{ type.cid }}/">{{ type.cname }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="searchnews">
+            <input type="text" class="form-control" placeholder="搜你想看" aria-label="Recipient's username"
+                   aria-describedby="inputGroup-sizing-lg">
+        </div>
+        <button class="btn btn-outline-secondary searchlogo" type="submit" id="button-addon2"
+                style="color: orange;border: 0px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                 class="bi bi-search-heart" style="float: left" viewBox="0 0 16 16">
+                <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z"/>
+                <path d="M13 6.5a6.471 6.471 0 0 1-1.258 3.844c.04.03.078.062.115.098l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1.007 1.007 0 0 1-.1-.115h.002A6.5 6.5 0 1 1 13 6.5ZM6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/>
+            </svg>
+        </button>
+    </div>
+    {#    左侧部分#}
+    <div class="leftdaohang">
+        <a href="/user_info/">
+            <div class="section">
+                <div class="nstyle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-newspaper" viewBox="0 0 16 16" style="margin-bottom: 3px">
+                        <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5v-11zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.531V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5H12z"/>
+                        <path d="M2 3h10v2H2V3zm0 3h4v3H2V6zm0 4h4v1H2v-1zm0 2h4v1H2v-1zm5-6h2v1H7V6zm3 0h2v1h-2V6zM7 8h2v1H7V8zm3 0h2v1h-2V8zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1z"/>
+                    </svg>
+                    <p>个人信息</p></div>
+            </div>
+        </a>
+        <a href="/user_history/">
+            <div class="section">
+                <div class="nstyle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-clock-history" viewBox="0 0 16 16" style="margin-bottom: 3px">
+                        <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
+                        <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
+                        <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
+                    </svg>
+                    <p>浏览历史</p></div>
+            </div>
+        </a>
+        <a href="/user_collection/">
+            <div class="section">
+                <div class="nstyle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-star-fill" viewBox="0 0 16 16" style="margin-bottom: 4px">
+                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                    </svg>
+                    <p>我的收藏</p></div>
+            </div>
+        </a>
+        <a href="/user_like/">
+            <div class="section">
+                <div class="nstyle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-heart-fill" viewBox="0 0 16 16" style="margin-bottom: 1px">
+                        <path fill-rule="evenodd"
+                              d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                    </svg>
+                    <p>我的喜欢</p></div>
+            </div>
+        </a>
+        <a href="/user_comment/">
+            <div class="section">
+                <div class="nstyle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-pencil-square" viewBox="0 0 16 16" style="margin-bottom: 3px">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd"
+                              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </svg>
+                    <p>我的评论</p></div>
+            </div>
+        </a>
+        <a href="/user_data/">
+            <div class="section" style="background-color: #F0F0F0">
+                <div class="nstyle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-clipboard-data-fill" viewBox="0 0 16 16" style="color: orange;margin-bottom: 2px">
+                        <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/>
+                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1ZM10 8a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V8Zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1Zm4-3a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1Z"/>
+                    </svg>
+                    <p style="color: orange">阅读分析</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    {#中间内容部分#}
+    <div class="row" style="margin-top: 32px">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    用户浏览偏好图
+                </div>
+                <div class="card-body">
+                    <div id="category_see" style="height: 450px;width: 400px;margin-left: 50px">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    各类新闻操作数据图
+                </div>
+                <div class="card-body" id="option_line" style="width: 600px;height: 450px">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="datacontent">
+        <div class="card">
+            <div class="card-header">
+                阅读时长与文章篇数分析(近七天)
+            </div>
+            <div class="card-body">
+                <div id="read_time_numbers" style="height: 400px;width: 1000px"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        initBarline()
+        initPiesee()
+        initLine()
+    })
+
+    {#初始化折柱图#}
+
+    function initBarline() {
+        var myChart = echarts.init(document.getElementById('read_time_numbers'))
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            toolbox: {
+                feature: {
+                    dataView: {show: true, readOnly: false},
+                    magicType: {show: true, type: ['line', 'bar']},
+                    restore: {show: true},
+                    saveAsImage: {show: true}
+                }
+            },
+            legend: {
+                data: ['阅读时长', '阅读篇数']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '阅读时长',
+                    min: 0,
+                    max: 500,
+                    interval: 100,
+                    axisLabel: {
+                        formatter: '{value} min'
+                    }
+                },
+                {
+                    type: 'value',
+                    name: '文章篇数',
+                    min: 0,
+                    max: 150,
+                    interval: 30,
+                    axisLabel: {
+                        formatter: '{value} 篇'
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '阅读时长',
+                    type: 'bar',
+                    tooltip: {
+                        valueFormatter: function (value) {
+                            return value + ' min';
+                        }
+                    },
+                    data: []
+                },
+                {
+                    name: '阅读篇数',
+                    type: 'line',
+                    yAxisIndex: 1,
+                    tooltip: {
+                        valueFormatter: function (value) {
+                            return value + ' 次';
+                        }
+                    },
+                    data: []
+                }
+            ]
+        };
+        $.ajax({
+            url: "/user_table/",
+            type: "get",
+            dataType: "JSON",
+            success: function (res) {
+                {#将后台值传入前端#}
+                if (res.status) {
+                    // 转换后端数据为字符串数组
+                    // 更新 x 轴日期数据
+                    console.info(res.data.formatted_dates)
+                    option.xAxis[0].data = res.data.formatted_dates;
+                    // 更新第一个系列（阅读时长）的数据
+                    option.series[0].data = res.data.readtimelist;
+                    // 更新第二个系列（阅读篇数）的数据
+                    option.series[1].data = res.data.readnumberslist;
+                    // 更新图表
+                    myChart.setOption(option)
+                }
+            }
+        })
+
+    }
+
+    {#    初始化浏览饼图#}
+
+    function initPiesee() {
+        var myChart = echarts.init(document.getElementById('category_see'))
+        var option = {
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                top: '5%',
+                left: 'center'
+            },
+            series: [
+                {
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: {
+                        borderRadius: 10,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    },
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: 40,
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: []
+                }
+            ]
+        };
+        $.ajax({
+            url: "/user_table/",
+            type: "get",
+            dataType: "JSON",
+            success: function (res) {
+                {#将后台值传入前端#}
+                if (res.status) {
+                    // 从后端数据构造饼图数据
+                    var pieData = res.data.news_counts_only.map(function (value, index) {
+                        return {value: value, name: res.data.typelist[index]};
+                    });
+                    // 对数据按照 value 从高到低排序
+                    pieData.sort(function (a, b) {
+                        return b.value - a.value;
+                    });
+                    {#console.info(res.data.news_counts_only)#}
+                    {#console.info(res.data.typelist)#}
+                    // 更新图表数据
+                    option.series[0].data = pieData;
+                    myChart.setOption(option)
+                }
+            }
+        })
+    }
+
+    {#    初始化折线图#}
+
+    function initLine() {
+        var myChart = echarts.init(document.getElementById('option_line'))
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                }
+            },
+            legend: {
+                data: ['点赞数', '收藏数', '评论数']
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    boundaryGap: false,
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '点赞数',
+                    type: 'line',
+                    stack: 'Total',
+                    areaStyle: {},
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: []
+                },
+                {
+                    name: '收藏数',
+                    type: 'line',
+                    stack: 'Total',
+                    areaStyle: {},
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: []
+                },
+                {
+                    name: '评论数',
+                    type: 'line',
+                    stack: 'Total',
+                    label: {
+                        show: true,
+                        position: 'top'
+                    },
+                    areaStyle: {},
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: []
+                }
+            ]
+        };
+        $.ajax({
+            url: "/user_table/",
+            type: "get",
+            dataType: "JSON",
+            success: function (res) {
+                {#将后台值传入前端#}
+                if (res.status) {
+                    // 更新图表数据
+                    option.series[0].data = res.data.news_like_only
+                    option.series[1].data = res.data.news_collection_only
+                    option.series[2].data = res.data.news_comment_only
+                    option.xAxis[0].data = res.data.typelist
+                    myChart.setOption(option)
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

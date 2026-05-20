@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="icon" href={% static 'photo/news_logo.png' %} type="image/x-icon" style="width: 100px;height: 100px">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=ZCOOL+QingKe+HuangYou&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href={% static 'plugins/bootstrap-4.6.2/css/bootstrap.css' %}>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&display=swap"
+          rel="stylesheet">
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-4.6.2/js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-4.6.2/js/bootstrap.js' %}"></script>
+    <style>
+        .account {
+            display: inline-block;
+            float: right;
+            width: 330px;
+            border: #dddd 1px solid;
+            box-shadow: 5px 5px 20px #aaa;
+            margin-right: 100px;
+            margin-top: 180px;
+            padding: 20px 40px;
+            border-radius: 5px;
+            height: 380px;
+
+        }
+
+        .account h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .leftbk {
+            width: 900px;
+            height: 1800px;
+            background-color: #502C6C;
+            display: inline-block;
+            float: left;
+            position: fixed;
+        }
+
+        .leftbk .details {
+            width: 200px;
+            height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 180px;
+        }
+
+        .details .logo {
+            width: 100px;
+            height: 100px;
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 40px;
+        }
+
+        .details .word {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 10px;
+
+        }
+
+        .word .p1 {
+            text-align: center;
+            font-size: 40px;
+            color: orange;
+            font-family: "ZCOOL KuaiLe", sans-serif;
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        .word .p2 {
+            text-align: center;
+            font-size: 30px;
+            color: #35BDFF;
+            font-family: "Ma Shan Zheng", cursive;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        /* 定义淡入动画 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* 应用动画到 .leftbk 元素 */
+        .leftbk {
+            animation: fadeIn 1s ease-in-out forwards; /* 2秒动画时长，缓动函数，保持结束状态 */
+            opacity: 0; /* 初始状态设为透明 */
+        }
+
+        /* 确保在动画完成后保持不透明状态 */
+        .leftbk.animated {
+            opacity: 1;
+        }
+
+        .account {
+            animation: fadeIn 1s ease-in-out forwards; /* 2秒动画时长，缓动函数，保持结束状态 */
+            opacity: 0; /* 初始状态设为透明 */
+        }
+
+        .leftbk.account {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+<div class="leftbk">
+    <div class="details">
+        <div class="logo">
+            <img src="{% static 'photo/news_logo.png' %}" style="width: 100px;height: 80px">
+        </div>
+        <div class="word">
+            <p class="p1">柿饼子头条</p>
+            <p class="p2">personality&nbsp&nbsptimely&nbsp&nbsp Data visualization</p>
+        </div>
+    </div>
+</div>
+<div class="account" style="display: none">
+    <h2>用户登录</h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="form-group" style="margin-top: 50px">
+            {{ form.username }}
+            <span style="color: red">{{ form.username.errors.0 }}</span>
+        </div>
+        <div class="form-group" style="margin-top: 20px">
+            {{ form.password }}
+            <span style="color:red;">{{ form.password.errors.0 }}</span>
+        </div>
+        <button type="submit" class="btn btn-success"
+                style="float:left;width: 150px;margin-top: 20px;display: inline-block">登录
+        </button>
+        <!-- 注册按钮 -->
+    </form>
+    <a href="/user_register/">
+        <button type="button" class="btn btn-light" data-toggle="modal" data-target="#registerModal"
+                style="width: 60px; margin-top: 20px; display: inline-block; float: right;" href="/register/">注册
+        </button>
+    </a>
+</div>
+
+<!-- 注册模态框 -->
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // 淡入第一个 div
+        $('.leftbk').hide().fadeIn(1000, function () {
+            // 当第一个 div 淡入完成后，淡入第二个 div
+            $('.account').fadeIn(1000);
+        });
+    });
+</script>
+</body>
+</html>

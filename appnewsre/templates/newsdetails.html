@@ -1,0 +1,872 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>具体新闻</title>
+    <link rel="icon" href={% static 'photo/news_logo.png' %} type="image/x-icon" style="width: 100px;height: 100px">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=ZCOOL+QingKe+HuangYou&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href={% static 'plugins/bootstrap-4.6.2/css/bootstrap.css' %}>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-4.6.2/js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-4.6.2/js/bootstrap.js' %}"></script>
+    <style>
+        .allpage {
+            height: 8000px;
+        {#height: 2000px;#} background-image: url("https://file03.16sucai.com/2017/1100/16sucai_v573c038_0df.JPG");
+            background-size: 1480px;
+            background-repeat: repeat-y;
+            background-attachment: fixed;
+        }
+
+        .head {
+            width: 1480px;
+            height: 80px;
+        {#background-image: url("https://img2.baidu.com/it/u=3751301613,2237782336&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889");#}{#background-image: url("{% static 'photo/bk101.jpg' %}");#} background-color: #A5DBF7;
+            background-size: 1480px;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+
+        }
+
+        .head .logo {
+            margin-top: 20px;
+            margin-left: 10px;
+            width: 200px;
+            height: 78px;
+            color: orange;
+            font-size: 30px;
+            font-family: "ZCOOL KuaiLe", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            float: left;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .head .imglogo {
+            float: left;
+            display: inline-block;
+            width: 100px;
+            margin-top: -10px;
+        }
+
+        .head .daohang {
+            margin-left: 40px;
+            margin-top: 30px;
+            float: left;
+        }
+
+        .head .searchnews {
+            width: 300px;
+            margin-left: 10px;
+            margin-top: 30px;
+            float: left;
+        }
+
+        .head .searchlogo {
+            margin-top: 30px;
+        }
+
+        .head .userinfo {
+            margin-top: 30px;
+            float: right;
+            margin-right: 25px;
+            display: inline-block;
+        }
+
+        .head .userimg {
+            margin-top: 25px;
+            float: right;
+            display: inline-block;
+        }
+
+        .head .astyle {
+            color: white;
+            text-decoration: none;
+        }
+
+        .head a:hover {
+            color: orange;
+            text-decoration: none;
+        }
+
+        .tuijian a:hover {
+            color: orange;
+            text-decoration: none;
+        }
+
+        .container .newscontent {
+            height: 100%;
+
+        }
+
+        .container .newsword {
+            font-size: 18px;
+            text-indent: 50px;
+            margin-top: 10px;
+        }
+
+        .container .newstitle {
+            font-size: 37px;
+            font-weight: bold;
+        }
+
+        .container .newsotherinfo {
+            font-size: 15px;
+            font-weight: lighter;
+            margin-top: 8px;
+            margin-left: 0px;
+        }
+
+        .container .eyes {
+            display: inline-block;
+            width: 100px;
+            height: 20px;
+            float: right;
+            margin-right: 20px;
+            opacity: 0.5;
+        }
+
+        .back {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            right: 55px;
+            bottom: 30px;
+        }
+
+        .back svg:hover {
+            color: orange;
+        }
+
+        .othermutipate {
+            position: fixed;
+            width: 30px;
+            height: 166px;
+            left: 55px;
+            bottom: 300px;
+        }
+
+        .shoucang {
+            border-bottom: gray 1px solid;
+            padding-bottom: 5px;
+        }
+
+        .shoucang .default-color {
+            color: #222222;
+        }
+
+        .shoucang .collected-color {
+            color: orange;
+        }
+
+        .shoucang svg:hover {
+            opacity: 0.4;
+        }
+
+        .like {
+            border-bottom: gray 1px solid;
+            padding-bottom: 5px;
+            margin-top: 10px;
+        }
+
+        .like .default-color {
+            color: #222222;
+        }
+
+        .like .liked-color {
+            color: orangered;
+        }
+
+        .like svg:hover {
+            opacity: 0.4;
+        }
+
+        .pinglun {
+            border-bottom: gray 1px solid;
+            padding-bottom: 5px;
+            margin-top: 10px;
+        }
+
+        .pinglun svg:hover {
+            color: #9fcdff;
+        }
+
+        .message {
+            width: 650px;
+            height: 100px;
+            font-size: large;
+            resize: none;
+            border: lightblue 1px solid;
+            background-color: white;
+            display: inline-block;
+            vertical-align: top;
+            border-radius: 10px;
+            padding: 1px;
+        }
+
+        .message:focus {
+            border: orange 2px solid; /* 当textarea获得焦点时，边框颜色变为黑色 */
+            padding: 2px;
+            outline: none; /* 移除默认的聚焦轮廓 */
+            background-color: #FAF5F9;
+        }
+
+        .chat {
+            margin-top: 100px;
+            position: relative
+        }
+
+
+        .allchat {
+            height: 500px;
+            margin-top: 88px;
+        }
+
+        .dechat {
+            position: relative;
+            height: auto;
+            width: 700px;
+            margin-top: 6px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid silver;
+
+        }
+
+        .chatp {
+            display: inline-block;
+            color: black;
+            margin-left: 10px;
+        }
+
+        .chatuser {
+            margin-left: 10px;
+        }
+
+        {#遮罩效果#}
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色背景 */
+            z-index: 998; /* 确保在wrapper之下，但在其他内容之上 */
+            display: none; /* 初始状态为不显示 */
+        }
+
+        .overlay.show {
+            display: block; /* 显示遮罩层 */
+        }
+
+        {#更多评论的wrapper#}
+        .slide-out-wrapper {
+            position: fixed;
+            top: 0;
+            right: -500px; /* 初始位置在屏幕右侧之外 */
+            width: 500px;
+            height: 100%;
+            background-color: white;
+            overflow-y: auto; /* 允许垂直滚动 */
+            transition: right 0.3s ease; /* 平滑过渡效果 */
+            z-index: 999; /* 确保显示在其他元素之上 */
+        }
+
+        .slide-out-wrapper.show {
+            right: 0; /* 显示时位置在屏幕右侧 */
+        }
+
+        .chatbtn {
+            background-color: orange;
+            float: right;
+            margin-top: 5px;
+            margin-right: 30px;
+        }
+
+        .chatbtn:hover {
+            background-color: #a96d05;
+        }
+
+        .logo a {
+            color: white;
+        }
+
+        .logo a:hover {
+            color: orange;
+        }
+
+        .my-sweetalert .swal2-popup {
+            background-color: #f0f0f0; /* 背景颜色 */
+            color: #333; /* 文字颜色 */
+            border-radius: 10px; /* 圆角 */
+        }
+
+        .my-sweetalert .swal2-icon.swal2-success {
+            border-color: green; /* 成功图标边框颜色 */
+        }
+
+        .my-sweetalert .swal2-icon.swal2-success::before,
+        .my-sweetalert .swal2-icon.swal2-success::after {
+            background-color: green; /* 成功图标路径颜色 */
+        }
+
+        .swal2-popup .swal2-title {
+            font-size: 20px !important;
+        }
+    </style>
+</head>
+<body>
+<div class="allpage">
+    <div class="head" id="jump-to-head">
+        <a href="/mainpage/0/" style="cursor: pointer">
+            <div style="display: inline-block;float: left;margin-top: 10px;margin-left: 10px"><img style="width: 100px"
+                                                                                                   src={% static 'photo/news_logo.png' %}>
+            </div>
+        </a>
+        <div class="logo" style="margin-top: 25px"><a href="/mainpage/0/">柿饼子头条</a></div>
+
+        <div class="daohang">
+            <ul class="nav nav-tabs">
+                {% for type in typelist %}
+                    <li class="nav-item">
+                        <a class="nav-link astyle" href="/mainpage/{{ type.cid }}/">{{ type.cname }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <form method="get" href="/search/">
+            <div class="searchnews">
+                <input type="text" class="form-control" placeholder="搜你想看" name="q"
+                       aria-describedby="inputGroup-sizing-lg">
+            </div>
+            <button class="btn btn-outline-secondary searchlogo" type="submit" id="button-addon2"
+                    style="color: orange;border: 0px">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-search-heart" viewBox="0 0 16 16">
+                    <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z"/>
+                    <path d="M13 6.5a6.471 6.471 0 0 1-1.258 3.844c.04.03.078.062.115.098l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1.007 1.007 0 0 1-.1-.115h.002A6.5 6.5 0 1 1 13 6.5ZM6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/>
+                </svg>
+            </button>
+
+
+            <div class="dropdown userinfo">
+                <!--                <button class="btn btn-secondary dropdown-toggle p-3 mb-2 bg-transparent text-white border-0" type="button" data-toggle="dropdown"-->
+                <!--                        aria-expanded="false"  style="color: orange; cursor:pointer">-->
+                <!--                    用户名称-->
+                <!--                </button>-->
+                <a class="btn btn btn-link dropdown-toggle astyle" href="#" role="button" data-toggle="dropdown"
+                   aria-expanded="false">
+                    {{ request.session.info.uname }}
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/user_info/">我的主页</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout/">退出登录</a>
+                </div>
+            </div>
+            <div class="userimg">
+                {% if userinfoobj.img %}
+                    <img src="{{ userinfoobj.img }}" style="height: 45px;border-radius: 100%;">
+                {% else %}
+                    <img src="{% static 'photo/defaltuserimg.jpeg' %}" style="height: 45px;border-radius: 100%;">
+                {% endif %}
+
+            </div>
+        </form>
+        {#            <div class="clear:both;"></div>#}
+    </div>
+    <div class="container" style="margin-top: 60px;">
+        <div class="row">
+            <div class="col-md-8 newscontent">
+                <div class="newstitle">
+                    {{ selectnews.newstitle }}
+                </div>
+                <div class="newsotherinfo" style="margin-top: 2px;margin-bottom: 2px;display: inline-block">
+                    {{ selectnews.newsauthor }} &nbsp &nbsp {{ selectnews.newsdate }} &nbsp &nbsp {{ selectnews.cname }}
+                </div>
+                <div class="eyes">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-eye-fill" viewBox="0 0 16 16" style="margin-bottom: 5px">
+                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                    </svg>
+                    {{ selectnews.seetimes }}
+                </div>
+                <div class="allnewimg">
+                    {#                    <img src="{{ selectnews.img }}">#}
+                    {% if selectnews.newsimg %}
+                        <img style="height: 100%;width: 100%;  margin-left: auto;
+                                            margin-right: auto;display: block;margin-top: 10px"
+                             src="{{ selectnews.newsimg }}">
+                    {% endif %}
+                </div>
+                <div class="newsword" style="text-indent: 50px">
+                    {{ selectnews.newscontent|linebreaksbr }}
+                </div>
+                <form id="chatForm" name="chat" method="post" action="/chat/{{ selectnews.newsid }}/">
+                    {% csrf_token %}
+                    <div class="chat form-group " id="chat-to-jump">
+                        <img {% if userinfoobj.img %}
+                            src="{{ userinfoobj.img }}"
+                        {% else %}
+                            src="{% static 'photo/defaltuserimg.jpeg' %}"
+                        {% endif %}
+                            style="width: 50px; vertical-align: top;height: 45px;border-radius: 100% /* 确保图片顶部与文本区域顶部对齐 */">
+                        <textarea name="comment" id="comment" class="message "
+                                  placeholder="我也来整两句(๑´ڡ`๑)......"></textarea>
+                        <button type="submit" class="btn chatbtn" style="margin-top: 10px">评论</button>
+                    </div>
+                </form>
+
+                <div class="allchat">
+                    <h4 style="margin-bottom: 50px">我的评论:</h4>
+                    {% if mychatlist %}
+                        {% for obj in mychatlist %}
+                            <div class="dechat" style="width: 480px;">
+                                <div class="chatuser">
+                                    <img {% if userinfoobj.img %}
+                                        src="{{ userinfoobj.img }}"
+                                    {% else %}
+                                        src="{% static 'photo/defaltuserimg.jpeg' %}"
+                                    {% endif %}
+                                        style="height: 45px;border-radius: 100%">
+                                    <p class="chatp" style="{% if obj.uid == request.session.info.uid %}
+                                        color: orange;
+                                    {% endif %}">{{ obj.uname }}</p>
+                                    <div><p style="text-indent: 50px;{% if obj.uid == request.session.info.uid %}
+
+                                    {% endif %}">{{ obj.comment }}</p></div>
+                                    <div>
+                                        <p style="display: inline-block;float: right;opacity: 0.6">{{ obj.commenttime }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p style="font-size: large">你还没有评论过哦，快来发表你的看法吧！！！</p>
+                    {% endif %}
+
+                    <button id="toggle-btn" class="btn btn-light" style="margin-left:260px;margin-top: 20px">
+                        点击查看更多评论
+                    </button>
+                    <div id="overlay" class="overlay"></div>
+                    <div id="slide-out-wrapper" class="slide-out-wrapper">
+                        <!-- Wrapper内容 -->
+                        <h2>&nbsp; &nbsp;总评论({{ commentnumbers }})</h2>
+                        <div style="border-bottom: 1px solid gray"></div>
+
+                        {% for obj in chatlist %}
+                            <div class="dechat" style="width: 480px;">
+                                <div class="chatuser">
+                                    <img
+                                            {% if obj.img %}
+                                                src="{{ obj.img }}"
+                                            {% else %}
+                                                src="{% static 'photo/defaltuserimg.jpeg' %}"
+                                            {% endif %}
+                                                style="height: 45px;border-radius: 100%">
+                                    <p class="chatp" style="{% if obj.uid == request.session.info.uid %}
+                                        color: orange;
+                                    {% endif %}">{{ obj.uname }}</p>
+                                    {% if obj.uid == request.session.info.uid %}
+                                        <p style="opacity: 0.6;display: inline-block;float: right">我的评论</p>
+                                    {% endif %}
+                                    <div><p style="text-indent: 50px;{% if obj.uid == request.session.info.uid %}
+                                    {% endif %}">{{ obj.comment }}</p></div>
+                                    <div>
+                                        <p style="display: inline-block;float: right;opacity: 0.6">{{ obj.commenttime }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 tuijian">
+                <div style="text-align: left;margin-top: 15px;margin-left: 30px;margin-bottom: 15px;">
+                    <svg t="1714470429386" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                         xmlns="http://www.w3.org/2000/svg" p-id="4343" width="50" height="50"
+                         style="margin-bottom: 3px">
+                        <path d="M0 256h1024v512H0V256z m194.24 155.52V640h37.44V538.88h115.84V640h37.44V411.52H347.52v95.36H231.68V411.52h-37.44zM531.2 407.04c-35.2 0-62.72 11.2-82.56 34.24-19.2 21.76-28.48 49.92-28.48 84.8 0 34.56 9.28 62.72 28.48 84.48 19.84 22.4 47.36 33.92 82.56 33.92 34.88 0 62.4-11.2 82.56-33.6 19.2-21.44 28.8-49.6 28.8-84.8 0-35.2-9.6-63.68-28.8-85.12-20.16-22.72-47.68-33.92-82.56-33.92z m0 32.96c23.68 0 41.92 7.36 54.72 22.72 12.48 15.36 18.88 36.48 18.88 63.36 0 26.88-6.4 47.68-18.88 62.72-12.8 15.04-31.04 22.72-54.72 22.72s-42.24-8-55.04-23.68c-12.48-15.36-18.56-35.84-18.56-61.76 0-26.24 6.08-46.72 18.56-62.08 13.12-16 31.36-24 55.04-24z m128.96-28.48v32h74.88V640h37.44V443.52h74.88v-32h-187.2z"
+                              fill="#c35041" p-id="4344" data-spm-anchor-id="a313x.search_index.0.i4.6bcd3a81MKjQnD"
+                              class=""></path>
+                    </svg>
+                    头条热榜
+                </div>
+                <div class="list-group" style="font-weight: bold">
+                    {% for obj in toplist %}
+                        {% if forloop.counter <= 12 %}
+                            <a class="list-group-item list-group-item-action"
+                               style="background-color: transparent;border: none;border-bottom: lightgray 1px solid;cursor: pointer"
+                               onclick="seenews({{ obj.newsid }})">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     style="color: orangered"
+                                     class="bi bi-1-square-fill" viewBox="0 0 16 16">
+                                    <path d="M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16Zm0-1c-1.657 0-3-1-3-2.75 0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5-.179 1-.25 2 1 3 .625.5 1 1.364 1 2.25C11 14 9.657 15 8 15Z"/>
+                                </svg>
+                                {{ obj.newstitle }}
+                                {% if obj.seetimes > 30 %}
+                                    <svg style="width: 18px;height: 18px;margin-bottom: 2px" t="1717477698279"
+                                         class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                         xmlns="http://www.w3.org/2000/svg" p-id="5984" width="200" height="200">
+                                        <path d="M170.666667 0h682.666666c93.866667 0 170.666667 76.8 170.666667 170.666667v682.666666c0 93.866667-76.8 170.666667-170.666667 170.666667H170.666667c-93.866667 0-170.666667-76.8-170.666667-170.666667V170.666667c0-93.866667 76.8-170.666667 170.666667-170.666667z"
+                                              fill="#FF4564" p-id="5985"></path>
+                                        <path d="M174.933333 311.466667c0 68.266667-8.533333 140.8-17.066666 209.066666l59.733333 17.066667c12.8-72.533333 17.066667-145.066667 17.066667-221.866667l-59.733334-4.266666z m85.333334-145.066667v277.333333c0 174.933333-34.133333 298.666667-98.133334 379.733334l59.733334 51.2c42.666667-59.733333 72.533333-128 89.6-200.533334 17.066667 29.866667 34.133333 68.266667 59.733333 110.933334l42.666667-68.266667c-29.866667-46.933333-59.733333-89.6-89.6-123.733333 4.266667-51.2 8.533333-102.4 8.533333-149.333334v-12.8c34.133333-29.866667 68.266667-64 93.866667-102.4L384 273.066667c-17.066667 21.333333-34.133333 46.933333-51.2 68.266666V166.4H260.266667z m187.733333 12.8v213.333333h72.533333v34.133334H426.666667v55.466666h98.133333v34.133334h-128v59.733333h106.666667c-34.133333 25.6-68.266667 46.933333-110.933334 55.466667l38.4 64c17.066667-8.533333 34.133333-21.333333 51.2-29.866667 17.066667 12.8 38.4 29.866667 51.2 51.2l42.666667-42.666667c-12.8-17.066667-29.866667-29.866667-46.933333-42.666666 17.066667-17.066667 29.866667-34.133333 42.666666-51.2h119.466667c8.533333 17.066667 21.333333 34.133333 34.133333 46.933333-17.066667 12.8-29.866667 29.866667-51.2 38.4l34.133334 46.933333c21.333333-12.8 38.4-29.866667 59.733333-42.666666 17.066667 12.8 38.4 29.866667 55.466667 42.666666l46.933333-55.466666c-42.666667-17.066667-81.066667-42.666667-110.933333-72.533334h98.133333v-59.733333h-110.933333v-34.133333h93.866666V426.666667h-93.866666v-34.133334h72.533333v-213.333333h-371.2z m145.066667 337.066667v-34.133334h93.866666v34.133334h-93.866666z m93.866666-89.6h-93.866666v-34.133334h93.866666v34.133334z m72.533334-85.333334h-238.933334v-29.866666h238.933334V341.333333z m-243.2-76.8v-29.866666h238.933333v29.866666h-238.933333z m89.6 605.866667c29.866667 4.266667 59.733333-17.066667 68.266666-46.933333V597.333333H597.333333v192c0 8.533333-4.266667 17.066667-12.8 17.066667h-4.266666c-17.066667 0-34.133333 0-51.2-4.266667l17.066666 68.266667h59.733334z m-42.666667-157.866667c-51.2 25.6-106.666667 46.933333-162.133333 59.733334l29.866666 68.266666c51.2-17.066667 102.4-42.666667 149.333334-72.533333l-17.066667-55.466667z m149.333333 8.533334l-34.133333 51.2c51.2 21.333333 98.133333 46.933333 140.8 81.066666l42.666667-64c-51.2-25.6-98.133333-51.2-149.333334-68.266666z"
+                                              fill="#FFFFFF" p-id="5986"></path>
+                                    </svg>
+                                {% else %}
+                                    <svg style="width: 18px;height: 18px;margin-bottom: 2px"
+                                         t="1717549340436" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                         xmlns="http://www.w3.org/2000/svg" p-id="6037" width="200" height="200">
+                                        <path d="M890.88 63.488q28.672 0 52.736 10.752t41.984 29.184 28.16 43.52 10.24 53.76l0 620.544q0 28.672-10.24 53.76t-28.16 43.52-41.984 29.184-52.736 10.752l-689.152 0q-28.672 0-53.76-10.752t-43.52-29.184-29.184-43.52-10.752-53.76l0-620.544q0-28.672 10.752-53.76t29.184-43.52 43.52-29.184 53.76-10.752l689.152 0zM256 254.976q9.216 0 27.648 0.512t43.008 0.512l52.224 0 55.296 0q64.512 0 141.312-1.024l0-63.488-126.976 0 0-64.512-64.512 0 0 64.512-128 0 0 63.488zM377.856 360.448q-8.192-15.36-15.36-29.696-6.144-12.288-12.288-25.088t-9.216-20.992l-58.368 21.504 32.768 76.8zM254.976 756.736l101.376-143.36-66.56-26.624-98.304 145.408zM448.512 574.464l126.976 0 0-62.464-45.056 0-81.92 0 0-64.512q23.552 0 46.08 0.512t40.96 0.512l40.96 0 0-63.488-66.56 0q-19.456 0-40.96-1.024l68.608-65.536-68.608-32.768-20.48 98.304-257.024 0 0 63.488 35.84 0 47.104 0 53.248 0 56.32 0 0 64.512-128 0 0 62.464 40.96 0q18.432 0 40.96 0.512t46.08-0.512l0 129.024q0 16.384-2.048 27.136t-10.24 15.36-25.088 4.608-47.616-5.12q25.6 31.744 27.648 71.68 13.312-2.048 34.304-1.024t40.448-1.536 33.28-12.8 13.824-34.816l0-192.512zM568.32 685.056q-16.384-19.456-29.696-37.888-11.264-15.36-23.552-30.208t-18.432-23.04l-46.08 30.72 64.512 98.304zM896 379.904q-20.48-1.024-53.248-0.512t-63.488 1.536q-36.864 1.024-75.776 3.072l0-129.024q49.152 0 85.504-4.608t59.904-9.728q27.648-6.144 46.08-14.336-18.432-27.648-29.696-46.08-5.12-8.192-9.728-15.36t-7.68-11.264-3.584-4.608 1.536 4.608q-21.504 16.384-57.344 24.064t-69.632 10.752-57.344 3.072-21.504 0q1.024 16.384 1.536 44.032t0 77.824-1.024 129.024-0.512 196.608q0 13.312-3.072 33.28t-10.24 39.936-19.968 35.328-31.232 19.456q12.288 3.072 21.504 11.776t16.896 18.432 13.824 19.456 12.288 14.848q12.288-18.432 23.552-42.496t20.48-50.176 14.336-52.224 5.12-47.616l0-40.96 0-43.008 0-47.104 0-60.416 64.512 0 0 384 63.488 0 0-384q23.552 1.024 35.328 0.512t29.184 3.584l0-71.68z"
+                                              p-id="6038" fill="#1296db"></path>
+                                    </svg>
+                                {% endif %}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div style="text-align: left;margin-top: 66px;margin-left: 30px;margin-bottom: 15px;font-size: large">
+                    <svg t="1714470968065" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                         xmlns="http://www.w3.org/2000/svg" p-id="8923" id="mx_n_1714470968066" width="40"
+                         height="40">
+                        <path d="M810.666667 597.333333m0 42.666667l0 0q0 42.666667-42.666667 42.666667l-256 0q-42.666667 0-42.666667-42.666667l0 0q0-42.666667 42.666667-42.666667l256 0q42.666667 0 42.666667 42.666667Z"
+                              fill="#516280" p-id="8924"></path>
+                        <path d="M981.333333 768m0 42.666667l0 0q0 42.666667-42.666666 42.666666l-426.666667 0q-42.666667 0-42.666667-42.666666l0 0q0-42.666667 42.666667-42.666667l426.666667 0q42.666667 0 42.666666 42.666667Z"
+                              fill="#007BFC" p-id="8925"></path>
+                        <path d="M128 640l0 170.666667 170.666667 0 0-170.666667-170.666667 0m0-85.333333l170.666667 0a85.333333 85.333333 0 0 1 85.333333 85.333333l0 170.666667a85.333333 85.333333 0 0 1-85.333333 85.333333l-170.666667 0a85.333333 85.333333 0 0 1-85.333333-85.333333l0-170.666667a85.333333 85.333333 0 0 1 85.333333-85.333333z"
+                              fill="#516280" p-id="8926"></path>
+                        <path d="M640 469.333333h-128a42.666667 42.666667 0 0 1 0-85.333333h128a85.333333 85.333333 0 0 0 0-170.666667h-128a42.666667 42.666667 0 0 1-42.666667-42.666666 42.666667 42.666667 0 0 1 42.666667-42.666667h128a170.666667 170.666667 0 0 1 0 341.333333z"
+                              fill="#516280" p-id="8927"></path>
+                        <path d="M341.333333 469.333333h-128a170.666667 170.666667 0 0 1 0-341.333333h128a42.666667 42.666667 0 0 1 42.666667 42.666667 42.666667 42.666667 0 0 1-42.666667 42.666666h-128a85.333333 85.333333 0 0 0 0 170.666667h128a42.666667 42.666667 0 0 1 0 85.333333z"
+                              fill="#516280" p-id="8928"></path>
+                        <path d="M298.666667 256m42.666666 0l170.666667 0q42.666667 0 42.666667 42.666667l0 0q0 42.666667-42.666667 42.666666l-170.666667 0q-42.666667 0-42.666666-42.666666l0 0q0-42.666667 42.666666-42.666667Z"
+                              fill="#516280" p-id="8929"></path>
+                    </svg>
+                    相关推荐
+                </div>
+                <div class="list-group" style="font-weight: bold">
+                    {% for obj in relatednews %}
+                        {% if forloop.counter <= 5 %}
+                            <a onclick="seenews({{ obj.newsid }})"
+                               class="list-group-item list-group-item-action"
+                               style="background-color: transparent;border: none;border-bottom: lightgray 1px solid;cursor: pointer">
+                                <svg t="1714471347987" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                     xmlns="http://www.w3.org/2000/svg" p-id="9844" width="20" height="20">
+                                    <path d="M980.65 284.459l-1.834-4.096c-42.88-95.446-158.805-136.747-259.37-92.246L487.252 291.541c-100.352 45.056-147.242 158.72-105.002 254.464l1.792 4.096c3.541 7.936 7.68 15.36 12.245 22.614l84.992-37.803a94.507 94.507 0 0 1-13.61-22.059l-1.793-4.096c-23.082-51.797 2.39-113.536 56.875-137.813l232.107-103.339c54.485-24.234 117.418-1.877 140.501 49.92l1.792 4.139c22.997 51.883-2.39 113.536-56.875 137.813l-104.96 46.72a265.387 265.387 0 0 1-22.058 105.046l162.432-72.32c100.437-45.099 147.328-158.72 104.96-254.464zM640 431.232a176.213 176.213 0 0 0-12.075-22.613l-84.992 37.888c5.376 6.613 9.984 13.952 13.568 22.016l1.835 4.096c23.04 51.84-2.39 113.536-56.875 137.813L269.44 713.728c-54.485 24.277-117.376 1.877-140.459-49.92l-1.834-4.096c-22.955-51.925 2.389-113.579 56.874-137.813l104.96-46.763c0.043-35.84 7.595-71.552 22.059-105.045l-162.475 72.192C48 487.339 1.11 601.173 43.35 696.875l1.835 4.096c42.88 95.445 158.72 136.661 259.37 92.245l232.107-103.381c100.352-45.056 147.371-158.72 105.046-254.464L640 431.232z"
+                                          p-id="9845" fill="#1296db"></path>
+                                </svg>
+                                {{ obj.newstitle }}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="back" style="cursor:pointer" onclick="scrollToSectionhead()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-arrow-bar-up"
+         viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+              d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"/>
+    </svg>
+</div>
+<div class="othermutipate">
+    <div class="shoucang" style="cursor:pointer">
+        <svg id="collection-icon"
+             xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+             class="bi bi-star-fill {% if is_collection %}
+             	collected-color
+             {% endif %} "
+             viewBox="0 0 16 16"
+             onclick="toggleCollection({{ selectnews.newsid }})">
+            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+        </svg>
+        <div style="text-align: center">{{ collectionnumbers }}</div>
+    </div>
+    <div class="like" style="cursor:pointer">
+        <svg id="like-icon"
+             xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+             class="bi bi-heart-fill {% if is_like %}
+             	liked-color
+             {% endif %} "
+             viewBox="0 0 16 16"
+             onclick="toggleLike({{ selectnews.newsid }})">
+            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+        </svg>
+        <div style="text-align: center">{{ likenumbers }}</div>
+    </div>
+    <div class="pinglun" style="cursor:pointer" onclick="scrollToSection()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+             class="bi bi-chat-right-text-fill" viewBox="0 0 16 16">
+            <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z"/>
+        </svg>
+        <div style="text-align: center">{{ commentnumbers }}</div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    {#    跳转到评论#}
+
+    function scrollToSection() {
+        var element = document.getElementById("chat-to-jump");
+        element.scrollIntoView({behavior: "smooth"}); // 平滑滚动到元素
+    }
+
+    {#跳转到头部#}
+
+    function scrollToSectionhead() {
+        var element = document.getElementById("jump-to-head");
+        element.scrollIntoView({behavior: "smooth"}); // 平滑滚动到元素
+    }
+
+    {#收藏功能#}
+
+    function toggleCollection(newsid) {
+        var csrftoken = '{{ csrf_token }}';
+        // 发送AJAX请求到后端
+        $.ajax({
+            url: '/togglecollection/' + newsid + '/', // 修改为实际URL
+            method: 'POST',
+            headers: {'X-CSRFToken': csrftoken}, // 添加CSRF令牌到请求头
+            data: {
+                'news_id': newsid
+            },
+            success: function (response) {
+                // 根据后端返回的信息更新前端
+                if (response.is_collection) {
+                    $('#collection-icon').addClass('collected-color').removeClass('default-color');
+                    // 使用 SweetAlert2 显示评论成功的消息，并自定义样式
+                    Swal.fire({
+                        title: '好看！收藏了！',
+                        icon: 'success',
+                        customClass: {
+                            popup: 'my-sweetalert' // 自定义类名
+                        },
+                        width: 350, // 设置弹窗宽度
+                        timer: 1500, // 自动关闭时间（毫秒）
+                        showConfirmButton: false // 不显示确认按钮
+                    })
+                    setTimeout(function () {
+                        window.location.href = '/newsdetails/' + newsid + '/';
+                    }, 1000)
+                } else {
+                    $('#collection-icon').addClass('default-color').removeClass('collected-color');
+                    Swal.fire({
+                        title: '已取消收藏',
+                        icon: 'error',
+                        customClass: {
+                            popup: 'my-sweetalert' // 自定义类名
+                        },
+                        width: 350, // 设置弹窗宽度
+                        timer: 1500, // 自动关闭时间（毫秒）
+                        showConfirmButton: false // 不显示确认按钮
+                    })
+                    setTimeout(function () {
+                        window.location.href = '/newsdetails/' + newsid + '/';
+                    }, 1000)
+                }
+            }
+            ,
+            error: function (xhr, status, error) {
+                // 处理错误情况
+                console.error("An error occurred: ");
+            }
+        });
+    }
+
+    {#喜欢功能的实现#}
+
+    function toggleLike(newsid) {
+        var csrftoken = '{{ csrf_token }}';
+        // 发送AJAX请求到后端
+        $.ajax({
+            url: '/togglelike/' + newsid + '/', // 修改为实际URL
+            method: 'POST',
+            headers: {'X-CSRFToken': csrftoken}, // 添加CSRF令牌到请求头
+            data: {
+                'news_id': newsid
+            },
+            success: function (response) {
+                // 根据后端返回的信息更新前端
+                if (response.is_like) {
+                    $('#like-icon').addClass('liked-color').removeClass('default-color');
+                    // 使用 SweetAlert2 显示评论成功的消息，并自定义样式
+                    Swal.fire({
+                        title: '爆赞！喜欢！',
+                        icon: 'success',
+                        customClass: {
+                            popup: 'my-sweetalert' // 自定义类名
+                        },
+                        width: 350, // 设置弹窗宽度
+                        timer: 1500, // 自动关闭时间（毫秒）
+                        showConfirmButton: false // 不显示确认按钮
+                    })
+                    setTimeout(function () {
+                        window.location.href = '/newsdetails/' + newsid + '/';
+                    }, 1000)
+                } else {
+                    $('#like-icon').addClass('default-color').removeClass('liked-color');
+                    // 使用 SweetAlert2 显示评论成功的消息，并自定义样式
+                    Swal.fire({
+                        title: '已取消喜欢',
+                        icon: 'error',
+                        customClass: {
+                            popup: 'my-sweetalert' // 自定义类名
+                        },
+                        width: 350, // 设置弹窗宽度
+                        timer: 1500, // 自动关闭时间（毫秒）
+                        showConfirmButton: false // 不显示确认按钮
+                    })
+                    setTimeout(function () {
+                        window.location.href = '/newsdetails/' + newsid + '/';
+                    }, 1000)
+                }
+            },
+            error: function (xhr, status, error) {
+                // 处理错误情况
+                console.error("An error occurred: ");
+            }
+        });
+    }
+
+    {#点击浏览某一新闻#}
+
+    function seenews(newsid) {
+        var csrftoken = '{{ csrf_token }}';
+        // 发送AJAX请求到后端
+        $.ajax({
+            url: '/seenews/' + newsid + '/', // 修改为实际URL
+            method: 'POST',
+            headers: {'X-CSRFToken': csrftoken}, // 添加CSRF令牌到请求头
+            data: {
+                'newsid': newsid
+            },
+            success: function (response) {
+                // 请求成功时的处理逻辑，例如跳转到新闻详情页面
+                window.location.href = '/newsdetails/' + newsid + '/';
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // 请求失败时的处理逻辑
+                console.error("Error seenews: " + textStatus, errorThrown);
+            }
+        });
+    }
+
+    {#评论功能#}
+    $(document).ready(function () {
+        $('#chatForm').on('submit', function (e) {
+            e.preventDefault();
+
+            var comment = $('#comment').val().trim();
+
+            if (comment === '') {
+                Swal.fire({
+
+                    title: '评论不能为空哦！',
+                    icon: 'warning',
+                    width: 350,
+                    timer: 800,
+                    showConfirmButton: false
+
+                });
+                return;
+            }
+
+            var newsid = $(this).attr('action').split('/').pop();
+            var csrftoken = $('input[name=csrfmiddlewaretoken]').val();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                headers: {'X-CSRFToken': csrftoken},
+                data: {
+                    'comment': comment
+                },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        // 使用 SweetAlert2 显示评论成功的消息，并自定义样式
+                        Swal.fire({
+
+                            title: '评论成功咯！',
+                            icon: 'success',
+                            customClass: {
+                                popup: 'my-sweetalert' // 自定义类名
+                            },
+                            width: 350, // 设置弹窗宽度
+                            timer: 2000, // 自动关闭时间（毫秒）
+                            showConfirmButton: false // 不显示确认按钮
+                        });
+                        // 设置定时器，在2000毫秒（2秒）后刷新页面
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000)
+                        // 清除评论框内容
+                        $('#comment').val('');
+                    } else {
+                        Swal.fire('评论失败！', '', 'error');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error("评论出错: " + textStatus, errorThrown);
+                }
+            });
+        });
+    });
+
+    {#    更多评论功能#}
+    $(document).ready(function () {
+        $('#toggle-btn').click(function () {
+            $('#slide-out-wrapper, .overlay').toggleClass('show'); // 同时切换wrapper和遮罩层的显示状态
+        });
+    });
+    $(document).ready(function () {
+        // 监听遮罩层的点击事件
+        $('.overlay').click(function (event) {
+            // 检查点击事件的目标是否是遮罩层本身，而不是它的子元素（如wrapper）
+            if (event.target === this) {
+                // 如果是遮罩层本身，则隐藏wrapper和遮罩层
+                $('#slide-out-wrapper, .overlay').removeClass('show');
+            }
+        });
+        // 确保点击wrapper内的内容不会关闭wrapper
+        $('#slide-out-wrapper').click(function (event) {
+            // 阻止事件冒泡到遮罩层
+            event.stopPropagation();
+        });
+    });
+    {#分隔文本#}
+    document.addEventListener('DOMContentLoaded', function () {
+        var newsContentDiv = document.getElementById('newsContent');
+        var newsContent = newsContentDiv.textContent || newsContentDiv.innerText;
+        var paragraphs = newsContent.split(/。+/);
+        // 清除div的当前内容
+        newsContentDiv.innerHTML = '';
+
+        // 创建一个新的段落元素，并添加到div中
+        paragraphs.forEach(function (paragraph, index) {
+            // 去除每段前后可能的多余空格和换行符
+            var trimmedParagraph = paragraph.trim();
+            if (trimmedParagraph) { // 忽略空段落
+                var p = document.createElement('p'); // 创建一个新的<p>元素
+                p.textContent = trimmedParagraph; // 不需要添加中文句号，因为分割时已经考虑了
+                newsContentDiv.appendChild(p); // 将<p>元素添加到div中
+
+                // 如果需要在每个段落后面加上中文句号（尽管分割时已经考虑了），可以这样做：
+                // p.textContent += '。';
+                // 但这通常不是必要的，因为分割后的每个部分应该已经是独立的段落了
+            }
+        });
+    });
+</script>
+</body>
+</html>
