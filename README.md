@@ -7,5 +7,6 @@
 bilibili：https://www.bilibili.com/video/BV1QT421C7gq/?spm_id_from=333.1387.homepage.video_card.click&vd_source=cf2b45ded1bf3cb4b920f11577fbcce5
 # 部分页面展示
 **主页面**
-<img width="516" height="276" alt="image" src="https://github.com/user-attachments/assets/6ce18b54-0344-49de-b8ed-68066d566b49" />
+
+<img width="720" height="360" alt="image" src="https://github.com/user-attachments/assets/6ce18b54-0344-49de-b8ed-68066d566b49" />
 
